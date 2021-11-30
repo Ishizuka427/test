@@ -17,6 +17,18 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
+  create_pull_request: 
+    steps:
+      - checkout
+      - run: 
+          command: |
+            curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data '
+            {
+            "title": "Amazing new feature",
+            "body": "Please pull these awesome changes in!",
+            "head": "'$COMPARE'",
+            "base": "'$BASE'"
+            }'
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
