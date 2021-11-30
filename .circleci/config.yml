@@ -20,6 +20,7 @@ jobs:
     steps:
       - checkout
       - run: |
+         sudo apt-get install curl &&
          curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data 
          '{
          "title": "Amazing new feature",
