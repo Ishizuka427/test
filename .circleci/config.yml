@@ -15,7 +15,7 @@ jobs:
     docker:
       - image: docker:19.03.8
         auth:
-          username: mydockerhub-user
+          username: suwa33
           password: $DOCKERHUB_PASSWORD  # コンテキスト/プロジェクト UI 環境変数の参照
     steps:
       - checkout
