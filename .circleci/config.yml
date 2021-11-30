@@ -28,7 +28,6 @@ jobs:
          "base": "'$BASE'"
          }'
 
-
 # ジョブの実行順の指定
 workflows:
   build_and_test:
