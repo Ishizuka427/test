@@ -20,7 +20,9 @@ jobs:
     steps:
       - checkout
       - run: apk add curl
-    #  - run:  yamlの内容を書き換える (https://github.com/moneyforward/ca_web/blob/release/.circleci/config.yml#L82)
+    #  - run: ca_web を git clone 
+    #  - run: ブランチの作成
+    #  - run: yamlの内容を書き換える (https://github.com/moneyforward/ca_web/blob/release/.circleci/config.yml#L82)
       - run: |
           curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data '{
           "title": "Amazing new feature",
