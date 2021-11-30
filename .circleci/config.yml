@@ -43,7 +43,6 @@ jobs:
           git commit -m 'docker-image-update'
           git branch -M docker-image-update-${CIRCLE_SHA1}
           git push origin docker-image-update-${CIRCLE_SHA1}
-
 # ジョブの実行順の指定
 workflows:
   build_and_test:
