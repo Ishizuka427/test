@@ -24,7 +24,7 @@ jobs:
           curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data '{
           "title": "Amazing new feature",
           "body": "Please pull these awesome changes in!",
-          "head": "'$COMPARE'",
+          "head": "'Ishizuka427:docker-image-update-${CIRCLE_SHA1}'",
           "base": "'$BASE'"
           }'
   create_pull_request: 
