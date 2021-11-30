@@ -37,12 +37,12 @@ jobs:
       - checkout
       - run: apk add git
       - run: |
-          git config --global user.email "56011102+Ishizuka427@users.noreply.github.co"
+          git config --global user.email "56011102+Ishizuka427@users.noreply.github.com"
           git config --global user.name "Ishizuka427"
           git add .circleci/config.yml
           git commit -m 'docker-image-update'
-          git branch -M $BRANCH
-          git push origin $BRANCH
+          git branch -M docker-image-update-${CIRCLE_SHA1}
+          git push origin docker-image-update-${CIRCLE_SHA1}
 
 # ジョブの実行順の指定
 workflows:
