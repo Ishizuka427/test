@@ -22,12 +22,12 @@ jobs:
       - run: apk add curl
     #  - run: ca_web を git clone 
     #  - run: ブランチの作成
-    #  - run: yamlの内容を書き換える (https://github.com/moneyforward/ca_web/blob/release/.circleci/config.yml#L82)
+    #  - run: yamlの内容を書き換える
       - run: |
           curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data '{
           "title": "Amazing new feature",
           "body": "Please pull these awesome changes in!",
-          "head": "'Ishizuka427:docker-image-update-${CIRCLE_SHA1}'",
+          "head": "'Ishizuka427:docker-image-update'",
           "base": "'$BASE'"
           }'
 # ジョブの実行順の指定
