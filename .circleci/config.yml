@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - run: echo "this is the build job"
-  test:
+  get_token:
     docker:
       - image: docker:19.03.8
         auth:
@@ -21,16 +21,31 @@ jobs:
       - checkout
       - run: apk add curl
       - run: |
-         curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data '{
-         "title": "Amazing new feature",
-         "body": "Please pull these awesome changes in!",
-         "head": "'$COMPARE'",
-         "base": "'$BASE'"
-         }'
+          curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data '{
+          "title": "Amazing new feature",
+          "body": "Please pull these awesome changes in!",
+          "head": "'$COMPARE'",
+          "base": "'$BASE'"
+          }'
+  create_pull_request: 
+    docker:
+      - image: docker:19.03.8
+        auth:
+          username: suwa33
+          password: $DOCKERHUB_PASSWORD  # コンテキスト/プロジェクト UI 環境変数の参照
+    steps:
+      - checkout
+      - run: apk add git
+      - run: |
+          git add .circleci/config.yml
+          git commit -m 'docker-image-update'
+          git branch -M $BRANCH
+          git push origin $BRANCH
 
 # ジョブの実行順の指定
 workflows:
   build_and_test:
     jobs:
       - build
-      - test
+      - get_token
+      - create_pull_request
