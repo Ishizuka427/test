@@ -21,7 +21,6 @@ jobs:
       - checkout
       - run: |
          sudo apt-get install curl &&
-         sudo apt-get install date &&
          curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data 
          '{
          "title": "Amazing new feature",
