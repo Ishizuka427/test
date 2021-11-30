@@ -1,37 +1,37 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+# このプロジェクトで実行するジョブの定義
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  build:
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+      - image: circleci/<language>:<version TAG>
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # コンテキスト/プロジェクト UI 環境変数の参照
     steps:
       - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
-  create_pull_request: 
+      - run: echo "this is the build job"
+  test:
+    docker:
+      - image: circleci/<language>:<version TAG>
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # コンテキスト/プロジェクト UI 環境変数の参照
     steps:
       - checkout
-      - run: 
-          command: |
-            curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data '
-            {
-            "title": "Amazing new feature",
-            "body": "Please pull these awesome changes in!",
-            "head": "'$COMPARE'",
-            "base": "'$BASE'"
-            }'
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+      - run: |
+         curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data 
+         '{
+         "title": "Amazing new feature",
+         "body": "Please pull these awesome changes in!",
+         "head": "'$COMPARE'",
+         "base": "'$BASE'"
+         }'
+
+
+# ジョブの実行順の指定
 workflows:
-  say-hello-workflow:
+  build_and_test:
     jobs:
-      - say-hello
+      - build
+      - test
