@@ -20,6 +20,7 @@ jobs:
     steps:
       - checkout
       - run: apk add curl
+    #  - run:  yamlの内容を書き換える (https://github.com/moneyforward/ca_web/blob/release/.circleci/config.yml#L82)
       - run: |
           curl -v -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/pulls --data '{
           "title": "Amazing new feature",
@@ -27,26 +28,9 @@ jobs:
           "head": "'Ishizuka427:docker-image-update-${CIRCLE_SHA1}'",
           "base": "'$BASE'"
           }'
-  create_pull_request: 
-    docker:
-      - image: docker:19.03.8
-        auth:
-          username: suwa33
-          password: $DOCKERHUB_PASSWORD  # コンテキスト/プロジェクト UI 環境変数の参照
-    steps:
-      - checkout
-      - run: apk add git
-      - run: |
-          git config --global user.email "56011102+Ishizuka427@users.noreply.github.com"
-          git config --global user.name "Ishizuka427"
-          git add .circleci/config.yml
-          git commit -m 'docker-image-update'
-          git branch -M docker-image-update-${CIRCLE_SHA1}
-          git push origin docker-image-update-${CIRCLE_SHA1}
 # ジョブの実行順の指定
 workflows:
   build_and_test:
     jobs:
       - build
       - get_token
-      - create_pull_request
