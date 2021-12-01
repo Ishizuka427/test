@@ -19,7 +19,7 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # コンテキスト/プロジェクト UI 環境変数の参照
     steps:
       - checkout
-      - run: apk add curl
+      - run: apk add curl git
       - run: git clone git@github.com:Ishizuka427/ca_web.git
     #  - run: ブランチの作成
     #  - run: yamlの内容を書き換える
