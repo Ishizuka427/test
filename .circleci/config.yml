@@ -20,7 +20,7 @@ jobs:
     steps:
       - checkout
       - run: apk add curl
-    #  - run: ca_web を git clone 
+      - run: git clone git@github.com:Ishizuka427/ca_web.git
     #  - run: ブランチの作成
     #  - run: yamlの内容を書き換える
       - run: |
